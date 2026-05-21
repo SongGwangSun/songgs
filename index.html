@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>송광선 | Full-Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #09090b;
+      --surface:   #111113;
+      --surface-2: #18181b;
+      --surface-3: #1e1e22;
+      --border:    #27272a;
+      --border-2:  #3f3f46;
+      --text:      #f4f4f5;
+      --muted:     #a1a1aa;
+      --dim:       #71717a;
+      --accent:    #7c3aed;
+      --accent-2:  #6366f1;
+      --accent-3:  #a78bfa;
+      --cyan:      #06b6d4;
+      --green:     #10b981;
+      --orange:    #f59e0b;
+      --pink:      #ec4899;
+      --glow:      rgba(124,58,237,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1rem, 5vw, 4rem);
+      height: 64px;
+      background: rgba(9,9,11,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.3s;
+    }
+    .nav-logo {
+      font-size: 1rem; font-weight: 700; letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--text), var(--muted));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: 0.45rem 1.1rem; border-radius: 6px; font-size: 0.85rem;
+      font-weight: 500; text-decoration: none; transition: all 0.2s;
+      background: var(--accent); color: #fff; border: none; cursor: pointer;
+    }
+    .nav-cta:hover { background: #6d28d9; transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted); border-radius: 2px; transition: 0.3s; }
+
+    /* ─── HERO ────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 7rem clamp(1rem, 5vw, 4rem) 4rem;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
+      background-size: 44px 44px;
+    }
+    .hero-glow {
+      position: absolute; width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 65%);
+      top: 50%; left: 50%; transform: translate(-50%, -55%);
+      animation: pulse 6s ease-in-out infinite;
+    }
+    .hero-glow-2 {
+      position: absolute; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 65%);
+      bottom: 10%; right: 10%;
+      animation: pulse 8s ease-in-out 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; transform: translate(-50%, -55%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -55%) scale(1.05); }
+    }
+    .hero-content {
+      position: relative; z-index: 1; max-width: 900px; text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 0.9rem; border-radius: 999px; font-size: 0.78rem; font-weight: 500;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.4);
+      color: var(--accent-3); margin-bottom: 1.8rem;
+      animation: fadeDown 0.8s ease both;
+    }
+    .badge-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--accent-3);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero-title {
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1.1;
+      margin-bottom: 0.5rem;
+      animation: fadeDown 0.8s ease 0.1s both;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, var(--accent-3) 50%, var(--cyan) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--muted); margin: 1.5rem auto; max-width: 620px; line-height: 1.7;
+      font-weight: 400;
+      animation: fadeDown 0.8s ease 0.2s both;
+    }
+    .hero-tagline {
+      font-size: clamp(0.85rem, 1.5vw, 1rem); color: var(--dim);
+      margin-bottom: 2.5rem; font-style: italic;
+      animation: fadeDown 0.8s ease 0.3s both;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeDown 0.8s ease 0.4s both;
+    }
+    .btn-primary {
+      padding: 0.75rem 2rem; border-radius: 8px; font-size: 0.95rem;
+      font-weight: 600; text-decoration: none; background: var(--accent);
+      color: #fff; border: none; cursor: pointer; transition: all 0.25s;
+      box-shadow: 0 0 30px var(--glow);
+    }
+    .btn-primary:hover { background: #6d28d9; transform: translateY(-2px); box-shadow: 0 0 50px var(--glow); }
+    .btn-secondary {
+      padding: 0.75rem 2rem; border-radius: 8px; font-size: 0.95rem;
+      font-weight: 600; text-decoration: none; background: transparent;
+      color: var(--text); border: 1px solid var(--border-2); cursor: pointer; transition: all 0.25s;
+    }
+    .btn-secondary:hover { border-color: var(--muted); transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: var(--dim); font-size: 0.75rem; animation: fadeIn 1s ease 1s both;
+    }
+    .scroll-line {
+      width: 1px; height: 40px; background: linear-gradient(to bottom, var(--dim), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1)} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+    /* ─── STATS ───────────────────────────────────────────── */
+    #stats {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      max-width: 1100px; margin: 0 auto; padding: 0 clamp(1rem, 5vw, 4rem);
+    }
+    .stat-item {
+      padding: 2.5rem 1rem; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--text), var(--accent-3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--dim); margin-top: 0.3rem; }
+
+    /* ─── SECTION SHARED ──────────────────────────────────── */
+    .section {
+      padding: clamp(4rem, 10vw, 8rem) clamp(1rem, 5vw, 4rem);
+      max-width: 1200px; margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent-3); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-desc {
+      font-size: 1rem; color: var(--muted); max-width: 560px; line-height: 1.75;
+      margin-bottom: 3.5rem;
+    }
+
+    /* fade-in animation classes */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+    .fade-in-delay-5 { transition-delay: 0.5s; }
+
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:none} }
+    @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+
+    /* ─── ABOUT ───────────────────────────────────────────── */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .about-text p { color: var(--muted); line-height: 1.85; margin-bottom: 1.2rem; font-size: 0.97rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-text strong { color: var(--text); }
+    .about-quote {
+      padding: 1.5rem; border-left: 3px solid var(--accent);
+      background: var(--surface); border-radius: 0 8px 8px 0;
+      margin: 2rem 0; color: var(--text); font-size: 1rem; line-height: 1.7;
+      font-style: italic;
+    }
+    .strengths { display: flex; flex-direction: column; gap: 1rem; }
+    .strength-card {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.25rem; border-radius: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .strength-card:hover { border-color: var(--accent); transform: translateX(4px); }
+    .strength-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(124,58,237,0.15); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .strength-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .strength-desc { font-size: 0.82rem; color: var(--dim); }
+
+    /* ─── SKILLS ──────────────────────────────────────────── */
+    #skills { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .skills-categories { display: flex; flex-direction: column; gap: 2.5rem; }
+    .skill-category {}
+    .skill-cat-header {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;
+    }
+    .cat-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .cat-name { font-size: 0.85rem; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      padding: 0.35rem 0.85rem; border-radius: 6px; font-size: 0.82rem; font-weight: 500;
+      background: var(--surface-3); border: 1px solid var(--border);
+      transition: all 0.2s; cursor: default;
+    }
+    .tag:hover { transform: translateY(-2px); border-color: var(--border-2); }
+    .tag.blue   { border-color: rgba(99,102,241,0.4); color: #818cf8; background: rgba(99,102,241,0.08); }
+    .tag.orange { border-color: rgba(245,158,11,0.4); color: #fbbf24; background: rgba(245,158,11,0.08); }
+    .tag.green  { border-color: rgba(16,185,129,0.4); color: #34d399; background: rgba(16,185,129,0.08); }
+    .tag.purple { border-color: rgba(124,58,237,0.4); color: #a78bfa; background: rgba(124,58,237,0.08); }
+    .tag.cyan   { border-color: rgba(6,182,212,0.4);  color: #22d3ee; background: rgba(6,182,212,0.08); }
+    .tag.pink   { border-color: rgba(236,72,153,0.4); color: #f472b6; background: rgba(236,72,153,0.08); }
+
+    /* ─── PRODUCTS ────────────────────────────────────────── */
+    #products { background: var(--bg); }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .product-card {
+      position: relative; padding: 1.75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: all 0.3s; cursor: default;
+    }
+    .product-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(124,58,237,0.08), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .product-card:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .product-card:hover::before { opacity: 1; }
+    .product-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .product-year { font-size: 0.75rem; color: var(--dim); margin-bottom: 0.5rem; }
+    .product-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .product-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .product-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tech-chip {
+      padding: 0.2rem 0.55rem; border-radius: 4px; font-size: 0.73rem; font-weight: 500;
+      background: var(--surface-3); border: 1px solid var(--border); color: var(--dim);
+    }
+    .product-badge {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600;
+      background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); color: #34d399;
+    }
+
+    /* ─── PROJECTS ────────────────────────────────────────── */
+    #projects { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
+    .project-item {
+      display: grid; grid-template-columns: auto 1fr auto;
+      gap: 1.5rem; align-items: center;
+      padding: 1.75rem 2rem; border-radius: 12px;
+      background: var(--bg); border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .project-item:hover { border-color: var(--border-2); transform: translateX(4px); }
+    .project-num {
+      font-size: 1.5rem; font-weight: 800; color: var(--border-2);
+      letter-spacing: -0.05em; font-variant-numeric: tabular-nums;
+      min-width: 2.5rem;
+    }
+    .project-info {}
+    .project-company { font-size: 0.75rem; color: var(--accent-3); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .project-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .project-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .project-meta { text-align: right; }
+    .project-year { font-size: 0.8rem; color: var(--dim); white-space: nowrap; }
+    .project-highlight {
+      display: inline-block; margin-top: 0.5rem;
+      padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.73rem; font-weight: 600;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.4); color: var(--accent-3);
+      white-space: nowrap;
+    }
+
+    /* ─── CAREER TIMELINE ─────────────────────────────────── */
+    #career { background: var(--bg); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0;
+      width: 1px; background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .timeline-item { position: relative; padding-bottom: 3rem; padding-left: 1.5rem; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: -2.5rem; top: 0.35rem;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+      box-shadow: 0 0 10px var(--glow);
+    }
+    .timeline-period { font-size: 0.78rem; color: var(--dim); margin-bottom: 0.35rem; }
+    .timeline-company { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .timeline-role { font-size: 0.85rem; color: var(--accent-3); margin-bottom: 0.75rem; font-weight: 500; }
+    .timeline-projects { display: flex; flex-direction: column; gap: 0.5rem; }
+    .timeline-project {
+      display: flex; gap: 0.6rem; align-items: flex-start;
+      font-size: 0.85rem; color: var(--muted);
+    }
+    .timeline-project::before { content: '›'; color: var(--accent-3); flex-shrink: 0; font-weight: 700; }
+
+    /* ─── CONTACT ─────────────────────────────────────────── */
+    #contact {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .contact-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: clamp(4rem, 10vw, 8rem) clamp(1rem, 5vw, 4rem);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .contact-text .section-title { margin-bottom: 1rem; }
+    .contact-text p { color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
+    .contact-cards { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-card {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.25rem 1.5rem; border-radius: 10px;
+      background: var(--bg); border: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      transition: all 0.25s;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateX(4px); }
+    .contact-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: rgba(124,58,237,0.15); display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.75rem; color: var(--dim); margin-bottom: 0.15rem; }
+    .contact-value { font-size: 0.95rem; font-weight: 600; }
+    .contact-cta-area { display: flex; flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .contact-big-quote {
+      font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700;
+      letter-spacing: -0.03em; line-height: 1.3;
+    }
+    .contact-sub { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border); background: var(--bg);
+      padding: 2rem clamp(1rem, 5vw, 4rem);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-left { font-size: 0.82rem; color: var(--dim); }
+    .footer-right { font-size: 0.82rem; color: var(--dim); }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .stat-item:nth-child(4) { border-top: 1px solid var(--border); }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .project-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .project-num { font-size: 1rem; }
+      .project-meta { text-align: left; }
+      .contact-inner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+
+    /* Notification toast */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      padding: 0.75rem 1.5rem; border-radius: 8px;
+      background: var(--surface-2); border: 1px solid var(--border-2);
+      color: var(--text); font-size: 0.85rem; font-weight: 500;
+      transform: translateY(100px); opacity: 0; transition: all 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { transform: none; opacity: 1; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <div class="nav-logo">송광선 · Song Gwang Sun</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#career">Career</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Contact</a>
+  <div class="hamburger" onclick="toggleMenu(this)">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      25년+ Full-Stack Developer
+    </div>
+
+    <h1 class="hero-title">
+      기술을 연결하고<br>
+      <span class="gradient-text">가치를 실현하는</span> 개발자
+    </h1>
+
+    <p class="hero-subtitle">
+      임베디드 하드웨어부터 AI 서버까지 — 현장에서 증명된 풀스택 엔지니어링 역량.<br>
+      <em>Connecting embedded systems to modern AI, one product at a time.</em>
+    </p>
+
+    <p class="hero-tagline">
+      "복잡한 문제를 단순하게 풀어내는 설계 능력, 현장 중심의 실용적인 개발 마인드"
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn-primary" href="#contact">Contact Me</a>
+      <a class="btn-secondary" href="#products">View Products</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══════════ STATS ══════════ -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="stat-item fade-in">
+      <div class="stat-num">25+</div>
+      <div class="stat-label">Years of Experience</div>
+    </div>
+    <div class="stat-item fade-in fade-in-delay-1">
+      <div class="stat-num">7+</div>
+      <div class="stat-label">Companies &amp; Divisions</div>
+    </div>
+    <div class="stat-item fade-in fade-in-delay-2">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div class="stat-item fade-in fade-in-delay-3">
+      <div class="stat-num">95%</div>
+      <div class="stat-label">AI Classification Accuracy</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about">
+  <div class="section">
+    <div class="about-grid">
+      <div class="fade-in">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">전방위 개발이 가능한<br>시니어 엔지니어</h2>
+        <div class="about-quote">
+          "기술을 이해하고 사람과 협업하는 소통 능력,<br>
+          그리고 현장 중심의 실용적인 개발 마인드를 기반으로<br>
+          현실을 바꾸는 기술, 지속 가능한 시스템을 형성합니다."
+        </div>
+        <div class="about-text">
+          <p>
+            <strong>2001년부터</strong> 임베디드 시스템, 휴대폰 펌웨어, 엔터프라이즈 서버, IoT 디바이스, AI 분류 플랫폼까지
+            다양한 도메인에서 실전 개발 경험을 쌓아온 풀스택 시니어 개발자입니다.
+          </p>
+          <p>
+            신세계·롯데·이마트·SKT 등 국내 주요 대기업 프로젝트에 참여하였으며,
+            <strong>개발 이사</strong> 역할로 기술 아키텍처 설계부터 팀 리딩, 양산 인증까지 전 과정을 주도한 경험이 있습니다.
+          </p>
+          <p>
+            <strong>한국방송통신대학교 컴퓨터과학과</strong> 졸업 · <strong>정보처리기사</strong> 보유
+          </p>
+        </div>
+      </div>
+
+      <div class="strengths fade-in fade-in-delay-2">
+        <div class="strength-card">
+          <div class="strength-icon">🔗</div>
+          <div>
+            <div class="strength-title">다양한 플랫폼 경험</div>
+            <div class="strength-desc">임베디드 ↔ 서버 ↔ 웹의 전방위 개발 — 장치 제어부터 API까지 직접 연결</div>
+          </div>
+        </div>
+        <div class="strength-card">
+          <div class="strength-icon">🔍</div>
+          <div>
+            <div class="strength-title">문제 해결 중심 접근</div>
+            <div class="strength-desc">시스템적 사고와 디버깅 능력 — 현장에서 검증된 원인 분석 역량</div>
+          </div>
+        </div>
+        <div class="strength-card">
+          <div class="strength-icon">🏗️</div>
+          <div>
+            <div class="strength-title">기술 간 연계 설계</div>
+            <div class="strength-desc">장치 제어와 웹 서비스를 유기적으로 연결하는 통합 아키텍처 설계</div>
+          </div>
+        </div>
+        <div class="strength-card">
+          <div class="strength-icon">🤖</div>
+          <div>
+            <div class="strength-title">지속적인 기술 학습</div>
+            <div class="strength-desc">AI CLI(Claude, Gemini, Codex)까지 탐구 — 기술 변화에 유연하게 대응</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SKILLS ══════════ -->
+<section id="skills">
+  <div class="section">
+    <div class="section-label fade-in">Tech Stack</div>
+    <h2 class="section-title fade-in">기술 스택</h2>
+    <p class="section-desc fade-in">
+      25년간 다양한 도메인에서 축적한 기술 역량.<br>
+      하드웨어 제어부터 AI·클라우드까지 전방위 커버리지를 보유합니다.
+    </p>
+
+    <div class="skills-categories">
+      <div class="skill-category fade-in">
+        <div class="skill-cat-header">
+          <div class="cat-dot" style="background:#818cf8"></div>
+          <div class="cat-name">Windows · Embedded Systems</div>
+        </div>
+        <div class="tags">
+          <span class="tag blue">C / C++</span>
+          <span class="tag blue">MFC</span>
+          <span class="tag blue">C#</span>
+          <span class="tag blue">VB</span>
+          <span class="tag blue">BCC</span>
+          <span class="tag blue">Device Driver</span>
+          <span class="tag blue">Windows Service</span>
+          <span class="tag blue">WinCE</span>
+          <span class="tag blue">ActiveX DLL</span>
+          <span class="tag blue">ASP.NET</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in fade-in-delay-1">
+        <div class="skill-cat-header">
+          <div class="cat-dot" style="background:#fbbf24"></div>
+          <div class="cat-name">Linux · Server</div>
+        </div>
+        <div class="tags">
+          <span class="tag orange">Pro*C</span>
+          <span class="tag orange">Communication Daemon</span>
+          <span class="tag orange">Unix Proc</span>
+          <span class="tag orange">STDC++</span>
+          <span class="tag orange">Shell Script</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in fade-in-delay-2">
+        <div class="skill-cat-header">
+          <div class="cat-dot" style="background:#34d399"></div>
+          <div class="cat-name">Database · Big Data</div>
+        </div>
+        <div class="tags">
+          <span class="tag green">Oracle</span>
+          <span class="tag green">MS-SQL</span>
+          <span class="tag green">MySQL</span>
+          <span class="tag green">PostgreSQL</span>
+          <span class="tag green">Elasticsearch</span>
+          <span class="tag green">SQL Tuning</span>
+          <span class="tag green">Index Optimization</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in fade-in-delay-3">
+        <div class="skill-cat-header">
+          <div class="cat-dot" style="background:#a78bfa"></div>
+          <div class="cat-name">AI · Machine Learning</div>
+        </div>
+        <div class="tags">
+          <span class="tag purple">TensorFlow CNN</span>
+          <span class="tag purple">AI Search Engine</span>
+          <span class="tag purple">OpenSearch</span>
+          <span class="tag purple">Claude CLI</span>
+          <span class="tag purple">Gemini CLI</span>
+          <span class="tag purple">Codex CLI</span>
+          <span class="tag purple">LiDAR Processing</span>
+          <span class="tag purple">Python · FastAPI</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in fade-in-delay-4">
+        <div class="skill-cat-header">
+          <div class="cat-dot" style="background:#22d3ee"></div>
+          <div class="cat-name">IoT · Hardware</div>
+        </div>
+        <div class="tags">
+          <span class="tag cyan">Z-Wave</span>
+          <span class="tag cyan">RFID</span>
+          <span class="tag cyan">Bluetooth</span>
+          <span class="tag cyan">USB Communication</span>
+          <span class="tag cyan">RS232</span>
+          <span class="tag cyan">900MHz RF</span>
+          <span class="tag cyan">Embedded C</span>
+          <span class="tag cyan">GSM / TTP</span>
+        </div>
+      </div>
+
+      <div class="skill-category fade-in fade-in-delay-5">
+        <div class="skill-cat-header">
+          <div class="cat-dot" style="background:#f472b6"></div>
+          <div class="cat-name">Web · Backend</div>
+        </div>
+        <div class="tags">
+          <span class="tag pink">Java · Spring</span>
+          <span class="tag pink">React</span>
+          <span class="tag pink">Node.js</span>
+          <span class="tag pink">RESTful API</span>
+          <span class="tag pink">OAuth 2.0 / JWT</span>
+          <span class="tag pink">Docker</span>
+          <span class="tag pink">Git</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PRODUCTS ══════════ -->
+<section id="products">
+  <div class="section">
+    <div class="section-label fade-in">Products</div>
+    <h2 class="section-title fade-in">실제 제품 개발 이력</h2>
+    <p class="section-desc fade-in">
+      소프트웨어를 넘어 실제 출시·양산된 하드웨어 제품을 직접 개발한 경험.<br>
+      Firmware부터 PC 관리 프로그램, 국제 인증까지 전 과정 담당.
+    </p>
+
+    <div class="products-grid">
+
+      <div class="product-card fade-in">
+        <div class="product-icon">🎵</div>
+        <div class="product-year">2001.04 – 2001.06 · 미래통신(주)</div>
+        <div class="product-name">MP3 Player</div>
+        <div class="product-desc">
+          USB 연결 MP3 플레이어의 파일시스템 구축 및 PC 관리 프로그램 개발.
+          음악 파일 전송·관리 솔루션 구현.
+        </div>
+        <div class="product-tech">
+          <span class="tech-chip">MFC</span>
+          <span class="tech-chip">USB</span>
+          <span class="tech-chip">File System</span>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-1">
+        <div class="product-icon">📚</div>
+        <div class="product-year">2001.07 – 2001.10 · 미래통신(주)</div>
+        <div class="product-name">어학 학습기</div>
+        <div class="product-desc">
+          USB 기반 어학 학습 디바이스용 콘텐츠 생성·관리 PC 프로그램 개발.
+          학습 파일 구조 및 전송 프로토콜 설계.
+        </div>
+        <div class="product-tech">
+          <span class="tech-chip">MFC</span>
+          <span class="tech-chip">USB</span>
+          <span class="tech-chip">Contents Mgmt</span>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-2">
+        <div class="product-icon">📱</div>
+        <div class="product-year">2001.11 – 2006.08 · 미래통신 / 텔레윅스</div>
+        <div class="product-name">GSM Phone (중국향)</div>
+        <div class="product-desc">
+          영국 TTP 솔루션 기반 중국 수출용 GSM 휴대폰 UI 개발 및 양산 프로그램 제작.
+          OEM 납품 다수.
+        </div>
+        <div class="product-tech">
+          <span class="tech-chip">C</span>
+          <span class="tech-chip">TTP Solution</span>
+          <span class="tech-chip">Phone UI</span>
+          <span class="tech-chip">Mass Production</span>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-3">
+        <div class="product-icon">🐠</div>
+        <div class="product-year">2007.01 – 2007.06 · (주)위컴즈</div>
+        <div class="product-name">USB 미니 어항</div>
+        <div class="product-desc">
+          PC와 USB로 연결하여 기포기·히터 온도를 원격 제어하는 스마트 전자 어항.
+          Windows PC 관리 프로그램 및 어항 내장 펌웨어 개발.
+        </div>
+        <div class="product-tech">
+          <span class="tech-chip">MFC</span>
+          <span class="tech-chip">Embedded C</span>
+          <span class="tech-chip">USB Control</span>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-4">
+        <div class="product-badge">SKT 등록</div>
+        <div class="product-icon">💡</div>
+        <div class="product-year">2015.04 – 2015.12 · 반디통신기술</div>
+        <div class="product-name">IoT 스마트홈 스위치</div>
+        <div class="product-desc">
+          IoT 국제 표준 Z-Wave 프로토콜 기반 스마트홈 전등 제어 스위치 개발.
+          국제 인증 취득 및 <strong>SKT 스마트홈 기기 등록</strong> 완료.
+        </div>
+        <div class="product-tech">
+          <span class="tech-chip">Z-Wave</span>
+          <span class="tech-chip">C++</span>
+          <span class="tech-chip">International Cert</span>
+          <span class="tech-chip">SKT SmartHome</span>
+        </div>
+      </div>
+
+      <div class="product-card fade-in fade-in-delay-5">
+        <div class="product-badge">95% Accuracy</div>
+        <div class="product-icon">🤖</div>
+        <div class="product-year">2018.09 – 2019.06 · JH데이터시스템</div>
+        <div class="product-name">AI 철스크랩 자동 분류</div>
+        <div class="product-desc">
+          LiDAR + 카메라로 스크랩 차량 스캔, CNN 기반 AI가 자동 등급 분류.
+          분류 정확도 <strong>95% 달성</strong>. 라이다 제어 · AI 모델 · 서버 전 단계 개발.
+        </div>
+        <div class="product-tech">
+          <span class="tech-chip">TensorFlow CNN</span>
+          <span class="tech-chip">LiDAR</span>
+          <span class="tech-chip">C# / Python</span>
+          <span class="tech-chip">MFC</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ KEY PROJECTS ══════════ -->
+<section id="projects">
+  <div class="section">
+    <div class="section-label fade-in">Key Projects</div>
+    <h2 class="section-title fade-in">주요 프로젝트</h2>
+    <p class="section-desc fade-in">
+      대기업·공공기관과 함께한 핵심 소프트웨어 프로젝트 이력.
+    </p>
+
+    <div class="projects-list">
+
+      <div class="project-item fade-in">
+        <div class="project-num">01</div>
+        <div class="project-info">
+          <div class="project-company">솔트룩스이노베이션 · 이노그루 · 2024</div>
+          <div class="project-name">AI 기반 학생설계 전공 검색 모듈</div>
+          <div class="project-desc">LMS DB 색인 → AI Search Engine 연동 → REST API 개발. 검색 속도·정확도 최적화 총괄 리드.</div>
+        </div>
+        <div class="project-meta">
+          <div class="project-year">2024.01 – 05</div>
+          <div class="project-highlight">AI Search</div>
+        </div>
+      </div>
+
+      <div class="project-item fade-in fade-in-delay-1">
+        <div class="project-num">02</div>
+        <div class="project-info">
+          <div class="project-company">신용회복위원회 · 타란 · 이노그루 · 2023</div>
+          <div class="project-name">비대면 채널 개설 시스템</div>
+          <div class="project-desc">온라인 신용회복 신청·계좌 개설 자동화. 전자서명, 본인인증 API, UI/UX 설계. Java + React + PostgreSQL.</div>
+        </div>
+        <div class="project-meta">
+          <div class="project-year">2023.03 – 06</div>
+          <div class="project-highlight">FinTech</div>
+        </div>
+      </div>
+
+      <div class="project-item fade-in fade-in-delay-2">
+        <div class="project-num">03</div>
+        <div class="project-info">
+          <div class="project-company">신세계 · 반디통신기술 · 2017</div>
+          <div class="project-name">신세계 노브랜드 쇼퍼 시스템</div>
+          <div class="project-desc">고객 단말기 ↔ POS ↔ 서버 간 중계 서버 개발. 실시간 상품 스캔·구매 처리 Unix Proc 기반.</div>
+        </div>
+        <div class="project-meta">
+          <div class="project-year">2017.09 – 2018.04</div>
+          <div class="project-highlight">Retail</div>
+        </div>
+      </div>
+
+      <div class="project-item fade-in fade-in-delay-3">
+        <div class="project-num">04</div>
+        <div class="project-info">
+          <div class="project-company">국민금융정보보호센터 · 반디통신기술 · 2016</div>
+          <div class="project-name">금융 로그 통합 모니터링 플랫폼</div>
+          <div class="project-desc">전체 서버 로그 취합·파싱·위험 분류·알림 플랫폼 구성. STDC++ 기반 고성능 로그 파서 개발.</div>
+        </div>
+        <div class="project-meta">
+          <div class="project-year">2016.01 – 02</div>
+          <div class="project-highlight">Security</div>
+        </div>
+      </div>
+
+      <div class="project-item fade-in fade-in-delay-4">
+        <div class="project-num">05</div>
+        <div class="project-info">
+          <div class="project-company">특허전략원 · 이노그루 · 2022</div>
+          <div class="project-name">빅데이터 특허 분류 플랫폼 DBA</div>
+          <div class="project-desc">대용량 특허 데이터 분류·정제·재가공·검색 성능 향상. PostgreSQL 색인 설계 및 정합성 검증.</div>
+        </div>
+        <div class="project-meta">
+          <div class="project-year">2022 – 2024</div>
+          <div class="project-highlight">Big Data</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CAREER ══════════ -->
+<section id="career">
+  <div class="section">
+    <div class="section-label fade-in">Career</div>
+    <h2 class="section-title fade-in">경력 타임라인</h2>
+    <p class="section-desc fade-in">임베디드에서 AI까지, 25년간의 기술 여정.</p>
+
+    <div class="timeline fade-in">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">2022.12 – 2024.09</div>
+        <div class="timeline-company">주) 이노그루</div>
+        <div class="timeline-role">개발 이사</div>
+        <div class="timeline-projects">
+          <div class="timeline-project">특허전략원 빅데이터 분류 DBA — PostgreSQL</div>
+          <div class="timeline-project">신용회복위원회 비대면 채널 개설 — Java, React</div>
+          <div class="timeline-project">AI 기반 학생설계 전공 검색 — Python, FastAPI, Elasticsearch</div>
+          <div class="timeline-project">서울대 기록원 검색 서버 — Node.js</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">2018.07 – 2019.06</div>
+        <div class="timeline-company">제이에이치데이터시스템</div>
+        <div class="timeline-role">개발 이사</div>
+        <div class="timeline-projects">
+          <div class="timeline-project">지게차 블루투스 접근경보 시스템 납품</div>
+          <div class="timeline-project">AI 철스크랩 자동 분류 플랫폼 — TensorFlow CNN, LiDAR, 95% 정확도</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">2015.01 – 2021.07</div>
+        <div class="timeline-company">반디통신기술주식회사</div>
+        <div class="timeline-role">개발 이사</div>
+        <div class="timeline-projects">
+          <div class="timeline-project">Z-Wave IoT 스마트홈 스위치 — 국제 인증, SKT 등록</div>
+          <div class="timeline-project">신세계 노브랜드 쇼퍼 / Simon 시스템 — Unix Proc</div>
+          <div class="timeline-project">롯데백화점 마일리지 / 아시아나 포인트 제휴 서버 — C#</div>
+          <div class="timeline-project">국민금융 로그 모니터링 플랫폼 — STDC++</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">2011.01 – 2014.11</div>
+        <div class="timeline-company">(주)에이플러스솔루션</div>
+        <div class="timeline-role">개발 부장</div>
+        <div class="timeline-projects">
+          <div class="timeline-project">롯데백화점 그린포인트 / 전자가격표시기 서버 — MFC</div>
+          <div class="timeline-project">예림임업 ERP·MES — .NET</div>
+          <div class="timeline-project">이마트·신세계·GS리테일 PDA — WinCE, JAVA</div>
+          <div class="timeline-project">조달청 RFID PDA 승인 시스템</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">2007.01 – 2011.01</div>
+        <div class="timeline-company">(주)위컴즈</div>
+        <div class="timeline-role">개발 이사</div>
+        <div class="timeline-projects">
+          <div class="timeline-project">USB 전자 어항 플랫폼 구축 — MFC, Embedded C</div>
+          <div class="timeline-project">휴대폰간 데이터 백업 시스템 — USB / RS232</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">2001.03 – 2006.08</div>
+        <div class="timeline-company">미래통신 / 과본통신 / 텔레윅스</div>
+        <div class="timeline-role">개발 선임 · 차장 · 연구소 소장</div>
+        <div class="timeline-projects">
+          <div class="timeline-project">MP3 플레이어 / 어학 학습기 개발 — MFC, USB</div>
+          <div class="timeline-project">중국향 GSM 폰 개발 (영국 TTP 솔루션) — C, 양산</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-text fade-in">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">함께 만들어<br>나가겠습니다</h2>
+      <p>
+        임베디드부터 AI까지, 25년 현장 경험을 바탕으로<br>
+        귀사의 기술 과제를 함께 해결하겠습니다.
+      </p>
+      <div class="contact-cards">
+        <a class="contact-card" href="mailto:songgs33@gmail.com" onclick="copyEmail(event)">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">songgs33@gmail.com</div>
+          </div>
+        </a>
+        <a class="contact-card" href="tel:01098363488">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">Phone</div>
+            <div class="contact-value">010-9836-3488</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-cta-area fade-in fade-in-delay-2">
+      <div class="contact-big-quote">
+        "읽어주셔서<br>
+        <span class="gradient-text">감사합니다.</span>"
+      </div>
+      <p class="contact-sub">
+        프로젝트 협업, 채용 문의, 기술 자문 등<br>어떤 주제든 편하게 연락 주세요.
+      </p>
+      <a class="btn-primary" href="mailto:songgs33@gmail.com">이메일 보내기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-left">© 2025 Song Gwang Sun · All rights reserved</div>
+  <div class="footer-right">25+ Years · Full-Stack Developer</div>
+</footer>
+
+<div class="toast" id="toast">📋 이메일이 클립보드에 복사되었습니다</div>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.borderBottomColor =
+      window.scrollY > 20 ? 'var(--border-2)' : 'var(--border)';
+  });
+
+  // Copy email
+  function copyEmail(e) {
+    e.preventDefault();
+    navigator.clipboard.writeText('songgs33@gmail.com').then(() => {
+      const t = document.getElementById('toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }).catch(() => { window.location.href = 'mailto:songgs33@gmail.com'; });
+  }
+
+  // Hamburger menu (mobile)
+  function toggleMenu(el) {
+    el.classList.toggle('open');
+    const links = document.querySelector('.nav-links');
+    if (links.style.display === 'flex') {
+      links.style.display = 'none';
+    } else {
+      Object.assign(links.style, {
+        display: 'flex', flexDirection: 'column', position: 'absolute',
+        top: '64px', left: '0', right: '0', background: 'rgba(9,9,11,0.97)',
+        padding: '1rem 2rem 1.5rem', gap: '1.2rem', borderBottom: '1px solid var(--border)'
+      });
+    }
+  }
+
+  // Stat counter animation
+  function animateCounter(el, target, suffix) {
+    let current = 0;
+    const step = target / 40;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.round(current) + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 30);
+  }
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const nums = e.target.querySelectorAll('.stat-num');
+        const data = [['25','+'], ['7','+'], ['50','+'], ['95','%']];
+        nums.forEach((num, i) => { animateCounter(num, parseInt(data[i][0]), data[i][1]); });
+        statsObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  const statsEl = document.getElementById('stats');
+  if (statsEl) statsObserver.observe(statsEl);
+</script>
+</body>
+</html>
